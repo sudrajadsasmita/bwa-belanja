@@ -11,10 +11,11 @@ import {
 import { AlertCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormStatus } from "react-dom";
 import { SignIn } from "../lib/actions";
 import { ActionResult } from "@/types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useActionState } from "react";
 
 const initialState: ActionResult = {
   error: "",
@@ -30,7 +31,7 @@ function SubmitButton() {
 }
 
 export default function FormSignIn() {
-  const [state, formAction] = useFormState(SignIn, initialState);
+  const [state, formAction] = useActionState(SignIn, initialState);
   return (
     <Card>
       <CardHeader>

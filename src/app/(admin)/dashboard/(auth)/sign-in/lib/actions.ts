@@ -10,7 +10,7 @@ import { cookies } from "next/headers";
 
 export async function SignIn(
   _: unknown,
-  formData: FormData
+  formData: FormData,
 ): Promise<ActionResult> {
   console.log(formData.get("email"));
   const validate = schemaSignIn.safeParse({
@@ -34,7 +34,7 @@ export async function SignIn(
 
   const comparePassword = bcrypt.compareSync(
     validate.data.password,
-    existingUser.password
+    existingUser.password,
   );
 
   if (!comparePassword) {

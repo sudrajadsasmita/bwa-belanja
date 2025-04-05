@@ -36,7 +36,7 @@ export const getUser = cache(async () => {
       (await cookies()).set(
         sessionCookie.name,
         sessionCookie.value,
-        sessionCookie.attributes
+        sessionCookie.attributes,
       );
     }
     if (!session) {
@@ -44,7 +44,7 @@ export const getUser = cache(async () => {
       (await cookies()).set(
         sessionCookie.name,
         sessionCookie.value,
-        sessionCookie.attributes
+        sessionCookie.attributes,
       );
     }
   } catch {

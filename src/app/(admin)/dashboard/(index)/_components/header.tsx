@@ -8,6 +8,7 @@ import {
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import FormLogout from "./form-logout";
 
 export default function Header({
   toggleSidebar,
@@ -30,7 +31,7 @@ export default function Header({
             size="icon"
             className="h-12 w-12 overflow-hidden rounded-full border border-white bg-blue-500 hover:bg-blue-600"
           >
-            <User />
+            <User color="white" />
           </Button>
         </DropdownMenuTrigger>
 
@@ -41,7 +42,7 @@ export default function Header({
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuItem>Settings</DropdownMenuItem>
           <DropdownMenuItem>Support</DropdownMenuItem>
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <FormLogout />
         </DropdownMenuContent>
       </DropdownMenu>
     </header>

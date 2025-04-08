@@ -5,8 +5,11 @@ import { ActionResult } from "@/types";
 import { redirect } from "next/navigation";
 import bcrypt from "bcrypt";
 import prisma from "../../../../../../../lib/prisma/prisma";
-import { lucia } from "@/lib/auth";
-import { cookies } from "next/headers";
+import {
+  createSession,
+  generateSessionToken,
+  setSessionTokenCookie,
+} from "@/lib/auth";
 
 export async function SignIn(
   _: unknown,
@@ -41,11 +44,11 @@ export async function SignIn(
     return { error: "Email/password incorrect..." };
   }
 
-  const session = await lucia.createSession(existingUser.id, {});
+  const token = generateSessionToken();
 
-  const sessionCookie = lucia.createSessionCookie(session.id);
+  const { expiresAt } = await createSession(token, existingUser.id);
 
-  const cookie = await cookies();
-  cookie.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes);
+  setSessionTokenCookie(token, expiresAt);
+
   return redirect("/dashboard");
 }

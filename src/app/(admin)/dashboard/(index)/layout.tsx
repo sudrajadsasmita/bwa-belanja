@@ -1,8 +1,8 @@
 import { Inter } from "next/font/google";
 import ParentLayout from "./_components/parent-layout";
-import { validateSessionToken } from "@/lib/auth";
-import { cookies } from "next/headers";
 import { Metadata } from "next";
+import { cookies } from "next/headers";
+import { validateSessionToken } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -16,13 +16,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookie = await cookies();
-  const token = cookie.get("session");
-  const { session } = await validateSessionToken(String(token?.value));
-  if (!session) {
-    console.log("session not found");
+  const token = (await cookies()).get("session")?.value;
+  const { session } = await validateSessionToken(String(token));
 
-    // return redirect("/dashboard/sign-in");
+  if (!session) {
+    redirect("/dashboard/sign-in");
   }
   return (
     <html lang="en">

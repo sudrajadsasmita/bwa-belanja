@@ -48,7 +48,7 @@ export async function SignIn(
 
   const { expiresAt } = await createSession(token, existingUser.id);
 
-  setSessionTokenCookie(token, expiresAt);
+  await setSessionTokenCookie(token, expiresAt);
 
-  return redirect("/dashboard");
+  redirect("/dashboard");
 }

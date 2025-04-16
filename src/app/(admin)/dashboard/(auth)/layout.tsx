@@ -1,4 +1,5 @@
 import { validateSessionToken } from "@/lib/auth";
+import { UserRole } from "@prisma/client";
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
@@ -15,9 +16,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const token = (await cookies()).get("session")?.value;
-  const { session } = await validateSessionToken(String(token));
+  const { session, user } = await validateSessionToken(String(token));
 
-  if (session) {
+  if (session && user.type === UserRole.superadmin) {
     redirect("/dashboard");
   }
   return (

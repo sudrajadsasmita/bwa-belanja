@@ -2,25 +2,16 @@
 import {
   Archive,
   Building,
-  ChevronDown,
-  ChevronRight,
-  Inbox,
-  Mail,
   MapPin,
   Menu,
   Package,
-  Send,
   ShieldCheck,
   ShoppingCart,
   User2,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 
 export default function Sidebar({ isOpen }: { isOpen: boolean }) {
-  const [isSuratOpen, setIsSuratOpen] = useState(false);
-
   return (
     <nav
       className={`fixed inset-y-0 left-0 z-50 h-screen w-3/4 transform bg-white p-4 shadow-lg transition-transform md:w-1/2 lg:static lg:w-1/3 lg:rounded-xl xl:w-1/4 2xl:w-1/6 ${
@@ -43,7 +34,7 @@ export default function Sidebar({ isOpen }: { isOpen: boolean }) {
           </Link>
 
           <Link
-            href="/dashboard/category"
+            href="/dashboard/categories"
             className="flex items-center gap-8 rounded-xl px-2 py-4 text-gray-700 hover:bg-gray-200 lg:px-8"
           >
             <Archive size={24} />
@@ -51,7 +42,7 @@ export default function Sidebar({ isOpen }: { isOpen: boolean }) {
           </Link>
 
           <Link
-            href="/dashboard/location"
+            href="/dashboard/locations"
             className="flex items-center gap-8 rounded-xl px-2 py-4 text-gray-700 hover:bg-gray-200 lg:px-8"
           >
             <MapPin size={24} />
@@ -59,7 +50,7 @@ export default function Sidebar({ isOpen }: { isOpen: boolean }) {
           </Link>
 
           <Link
-            href="/dashboard/brand"
+            href="/dashboard/brands"
             className="flex items-center gap-8 rounded-xl px-2 py-4 text-gray-700 hover:bg-gray-200 lg:px-8"
           >
             <Building size={24} />
@@ -67,7 +58,7 @@ export default function Sidebar({ isOpen }: { isOpen: boolean }) {
           </Link>
 
           <Link
-            href="/dashboard/product"
+            href="/dashboard/products"
             className="flex items-center gap-8 rounded-xl px-2 py-4 text-gray-700 hover:bg-gray-200 lg:px-8"
           >
             <Package size={24} />
@@ -75,7 +66,7 @@ export default function Sidebar({ isOpen }: { isOpen: boolean }) {
           </Link>
 
           <Link
-            href="/dashboard/order"
+            href="/dashboard/orders"
             className="flex items-center gap-8 rounded-xl px-2 py-4 text-gray-700 hover:bg-gray-200 lg:px-8"
           >
             <ShoppingCart size={24} />

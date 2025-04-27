@@ -7,10 +7,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { TableCell } from "@/components/ui/table";
 import { Category } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, Pencil, Trash } from "lucide-react";
+import Link from "next/link";
+import FormDelete from "./_components/form-delete";
 export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: "name",
@@ -20,27 +21,37 @@ export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: "createdAt",
     header: "Created At",
+    cell: ({ cell }) => {
+      return (
+        <div className="flex items-center gap-2">
+          {cell.getValue<Date>().toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })}
+        </div>
+      );
+    },
   },
   {
     id: "action",
     cell: ({ row }) => {
       const category = row.original;
       return (
-        <div className="">
-          <TableCell className="hidden align-middle md:table-cell">
-            <div className="flex h-full w-full flex-col items-center justify-center gap-2 lg:flex-row lg:gap-4">
-              <Button className="h-full w-full bg-orange-500 uppercase hover:bg-orange-600 lg:h-auto lg:w-auto">
+        <div className="flex items-center justify-center">
+          <div className="hidden gap-2 md:flex">
+            <Button
+              className="bg-orange-500 uppercase hover:bg-orange-600"
+              asChild
+            >
+              <Link href={`/dashboard/categories/edit/${category.id}`}>
                 <Pencil className="mr-2" />
                 Edit
-              </Button>
-              <Button className="h-full w-full bg-red-500 uppercase hover:bg-red-600 lg:h-auto lg:w-auto">
-                <Trash className="mr-2" />
-                Delete
-              </Button>
-            </div>
-          </TableCell>
-
-          <TableCell className="table-cell md:hidden">
+              </Link>
+            </Button>
+            <FormDelete type="BIG" id={category.id} />
+          </div>
+          <div className="flex md:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button aria-haspopup="true" size="icon" variant="ghost">
@@ -50,11 +61,15 @@ export const columns: ColumnDef<Category>[] = [
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem>Edit</DropdownMenuItem>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href={`/dashboard/categories/edit/${category.id}`}>
+                    Edit
+                  </Link>
+                </DropdownMenuItem>
+                <FormDelete type="SMALL" id={category.id} />
               </DropdownMenuContent>
             </DropdownMenu>
-          </TableCell>
+          </div>
         </div>
       );
     },

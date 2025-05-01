@@ -22,38 +22,38 @@ import { ActionResult } from "@/types";
 
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { postCategory, updateCategory } from "../lib/actions";
+import { postLocation, updateLocation } from "../lib/actions";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import { Category } from "@prisma/client";
+import { Location } from "@prisma/client";
 
 const initialState: ActionResult = {
   error: "",
 };
 
-interface FormCategoryProps {
+interface FormLocationProps {
   type: "ADD" | "EDIT";
-  data?: Category;
+  data?: Location;
 }
 
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <Button size="sm" disabled={pending}>
-      {pending ? "Saving..." : "Save Category"}
+      {pending ? "Saving..." : "Save Location"}
     </Button>
   );
 }
 
-export default function FormCategory({
+export default function FormLocation({
   type = "ADD",
   data = undefined,
-}: FormCategoryProps) {
-  const updateCategoryWithId = (_: unknown, formData: FormData) =>
-    updateCategory(_, formData, data?.id);
+}: FormLocationProps) {
+  const updateLocationWithId = (_: unknown, formData: FormData) =>
+    updateLocation(_, formData, data?.id);
 
   const [state, formAction] = useActionState(
-    type == "ADD" ? postCategory : updateCategoryWithId,
+    type == "ADD" ? postLocation : updateLocationWithId,
     initialState,
   );
 
@@ -67,13 +67,13 @@ export default function FormCategory({
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/dashboard/categories">
-                Category
+              <BreadcrumbLink href="/dashboard/locations">
+                Location
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Categories</BreadcrumbPage>
+              <BreadcrumbPage>Create</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -81,18 +81,18 @@ export default function FormCategory({
           <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
             <div className="flex items-center gap-4">
               <Button variant="outline" size="icon" className="h-7 w-7" asChild>
-                <Link href={`/dashboard/categories`}>
+                <Link href={`/dashboard/locations`}>
                   <ChevronLeft className="h-4 w-4" />
                   <span className="sr-only">Back</span>
                 </Link>
               </Button>
               <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                Category Controller
+                Location Controller
               </h1>
 
               <div className="hidden items-center gap-2 md:ml-auto md:flex">
                 <Button variant="outline" size="sm" asChild>
-                  <Link href={`/dashboard/categories`}>Discard</Link>
+                  <Link href={`/dashboard/locations`}>Discard</Link>
                 </Button>
                 <SubmitButton />
               </div>
@@ -104,7 +104,7 @@ export default function FormCategory({
                   className="w-full max-w-3xl"
                 >
                   <CardHeader>
-                    <CardTitle>Category Details</CardTitle>
+                    <CardTitle>Location Details</CardTitle>
                     <CardDescription>
                       Create new categories to help your customers find what
                       they are looking for.
@@ -144,7 +144,7 @@ export default function FormCategory({
               <Button variant="outline" size="sm">
                 Discard
               </Button>
-              <Button size="sm">Save Product</Button>
+              <Button size="sm">Save Location</Button>
             </div>
           </div>
         </main>

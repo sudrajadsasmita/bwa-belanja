@@ -22,38 +22,38 @@ import { ActionResult } from "@/types";
 
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { postCategory, updateCategory } from "../lib/actions";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
-import { Category } from "@prisma/client";
+import { Brand } from "@prisma/client";
+import { postBrand, putBrand } from "../lib/actions";
 
 const initialState: ActionResult = {
-  error: "",
+  error: {},
 };
 
-interface FormCategoryProps {
+interface FormBrandProps {
   type: "ADD" | "EDIT";
-  data?: Category;
+  data?: Brand;
 }
 
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <Button size="sm" disabled={pending}>
-      {pending ? "Saving..." : "Save Category"}
+      {pending ? "Saving..." : "Save Brand"}
     </Button>
   );
 }
 
-export default function FormCategory({
+export default function FormBrand({
   type = "ADD",
   data = undefined,
-}: FormCategoryProps) {
-  const updateCategoryWithId = (_: unknown, formData: FormData) =>
-    updateCategory(_, formData, data?.id);
+}: FormBrandProps) {
+  const updateBrandWithId = (_: unknown, formData: FormData) =>
+    putBrand(_, formData, data?.id);
 
   const [state, formAction] = useActionState(
-    type == "ADD" ? postCategory : updateCategoryWithId,
+    type == "ADD" ? postBrand : updateBrandWithId,
     initialState,
   );
 
@@ -67,13 +67,11 @@ export default function FormCategory({
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/dashboard/categories">
-                Category
-              </BreadcrumbLink>
+              <BreadcrumbLink href="/dashboard/brands">Brand</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Categories</BreadcrumbPage>
+              <BreadcrumbPage>brand</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -81,18 +79,18 @@ export default function FormCategory({
           <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
             <div className="flex items-center gap-4">
               <Button variant="outline" size="icon" className="h-7 w-7" asChild>
-                <Link href={`/dashboard/categories`}>
+                <Link href={`/dashboard/brands`}>
                   <ChevronLeft className="h-4 w-4" />
                   <span className="sr-only">Back</span>
                 </Link>
               </Button>
               <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                Category Controller
+                Brand Controller
               </h1>
 
               <div className="hidden items-center gap-2 md:ml-auto md:flex">
                 <Button variant="outline" size="sm" asChild>
-                  <Link href={`/dashboard/categories`}>Discard</Link>
+                  <Link href={`/dashboard/brands`}>Discard</Link>
                 </Button>
                 <SubmitButton />
               </div>
@@ -104,10 +102,10 @@ export default function FormCategory({
                   className="w-full max-w-3xl"
                 >
                   <CardHeader>
-                    <CardTitle>Category Details</CardTitle>
+                    <CardTitle>Brand Details</CardTitle>
                     <CardDescription>
-                      Create new categories to help your customers find what
-                      they are looking for.
+                      Create new brand to help your customers find what they are
+                      looking for.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -119,13 +117,29 @@ export default function FormCategory({
                           name="name"
                           type="text"
                           className="w-full"
-                          defaultValue={type == "EDIT" ? data?.name : undefined}
+                          defaultValue={data?.name}
                         />
-                        {state?.error !== "" && (
-                          <p className="text-sm font-medium text-red-500">
-                            {state?.error}
-                          </p>
-                        )}
+                        {typeof state?.error === "object" &&
+                          state?.error?.name?.map((msg: string, i: number) => (
+                            <p key={i} className="mt-1 text-sm text-red-600">
+                              {msg}
+                            </p>
+                          ))}
+                      </div>
+                      <div className="grid gap-3">
+                        <Label htmlFor="logo">Logo</Label>
+                        <Input
+                          id="logo"
+                          name="image"
+                          type="file"
+                          className="w-full"
+                        />
+                        {typeof state?.error === "object" &&
+                          state?.error?.image?.map((msg: string, i: number) => (
+                            <p key={i} className="mt-1 text-sm text-red-600">
+                              {msg}
+                            </p>
+                          ))}
                       </div>
                       {/* <div className="grid gap-3">
                       <Label htmlFor="description">Description</Label>

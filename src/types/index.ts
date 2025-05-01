@@ -1,3 +1,4 @@
 export type ActionResult = {
-  error: string;
+  error?: Record<string, string[]> | string | null; // Laravel-style
+  message?: string; // Opsional untuk pesan umum
 };

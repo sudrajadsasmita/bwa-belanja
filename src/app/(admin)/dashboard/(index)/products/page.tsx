@@ -19,11 +19,11 @@ import { DataTable } from "@/components/ui/data-tables";
 
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import getBrands from "./lib/data";
+import getProducts from "./lib/data";
 import { columns } from "./columns";
 
-export default async function BrandsPage() {
-  const data = await getBrands();
+export default async function ProductPage() {
+  const data = await getProducts();
   return (
     <div className="flex flex-col gap-4">
       <Breadcrumb>
@@ -33,21 +33,21 @@ export default async function BrandsPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Brands</BreadcrumbPage>
+            <BreadcrumbPage>Products</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <Card x-chunk="dashboard-06-chunk-0">
         <CardHeader className="flex flex-col items-center justify-between gap-2 md:flex-row md:gap-0">
           <div className="flex flex-col space-y-2">
-            <CardTitle>Brand Product</CardTitle>
+            <CardTitle>List Product</CardTitle>
             <CardDescription>
-              Manage your Brand product and view their sales performance.
+              Manage your product and view their sales performance.
             </CardDescription>
           </div>
           <Button className="w-full md:w-auto" asChild>
-            <Link href={`brands/create`}>
-              <Plus /> Add Brand
+            <Link href={`products/create`}>
+              <Plus /> Add Product
             </Link>
           </Button>
         </CardHeader>

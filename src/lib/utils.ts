@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ZodError } from "zod";
+import dayjs from "dayjs";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -18,4 +19,20 @@ export function mapZodError(error: ZodError): Record<string, string[]> {
   });
 
   return errors;
+}
+
+export function rupiahFormatter(value: number) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+export function formatDate(date: Date | null, format: string = "DD MM YYYY") {
+  if (!date) {
+    return dayjs().format(format);
+  }
+  return dayjs(date).format(format);
 }

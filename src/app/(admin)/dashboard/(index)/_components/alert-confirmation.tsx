@@ -14,6 +14,8 @@ import { Button } from "@/components/ui/button";
 interface AlertConfirmationProps {
   alertTitle: string;
   alertDescription: string;
+  buttonShowDialogTitle?: string;
+  buttonShowDialogClassName?: string;
   children?: React.ReactNode;
 }
 
@@ -21,11 +23,15 @@ export default function AlertConfirmation({
   alertTitle,
   alertDescription,
   children,
+  buttonShowDialogTitle,
+  buttonShowDialogClassName,
 }: AlertConfirmationProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline">Show Dialog</Button>
+        <Button variant="outline" className={buttonShowDialogClassName}>
+          {buttonShowDialogTitle ?? "buttonShowDialogTitle"}
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

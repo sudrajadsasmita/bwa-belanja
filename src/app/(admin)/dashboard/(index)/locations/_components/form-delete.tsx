@@ -1,10 +1,10 @@
 import { ActionResult } from "@/types";
 import { useActionState } from "react";
-import { deleteLocation } from "../lib/actions";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useFormStatus } from "react-dom";
+import { deleteLocation } from "../lib/actions";
 
 const initialState: ActionResult = {
   error: "",

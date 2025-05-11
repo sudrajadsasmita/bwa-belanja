@@ -1,4 +1,5 @@
 "use client";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -7,52 +8,77 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Brand } from "@prisma/client";
+import { getImageUrl } from "@/lib/supabase";
+import { formatDate, rupiahFormatter } from "@/lib/utils";
+import { StockProduct } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, Pencil } from "lucide-react";
-import Link from "next/link";
-import FormDelete from "./_components/form-delete";
 import Image from "next/image";
-import { getImageUrl } from "@/lib/supabase";
-export const columns: ColumnDef<Brand>[] = [
+import Link from "next/link";
+
+export type TColumns = {
+  id: number;
+  name: string;
+  imageUrl: string;
+  categoryName: string;
+  productName: string;
+  price: number;
+  totalSales: number;
+  stock: StockProduct;
+  createdAt: Date;
+};
+
+export const columns: ColumnDef<TColumns>[] = [
   {
     accessorKey: "name",
-    header: "Brand",
+    header: "Name",
     cell: ({ row }) => {
-      const brand = row.original;
+      const product = row.original;
       return (
         <div className="inline-block items-center gap-5 md:inline-flex">
           <Image
-            src={getImageUrl(brand.logo)}
+            src={getImageUrl(product.imageUrl)}
             alt="Product"
             width={80}
             height={80}
           />
-          <span>{brand.name}</span>
+          <span>{product.name}</span>
         </div>
       );
     },
   },
-
+  {
+    accessorKey: "price",
+    header: "Price",
+    cell: ({ row }) => {
+      const product = row.original;
+      return rupiahFormatter(product.price);
+    },
+  },
+  {
+    accessorKey: "stock",
+    header: "Status",
+    cell: ({ row }) => {
+      const product = row.original;
+      return <Badge variant={"outline"}> {product.stock}</Badge>;
+    },
+  },
+  {
+    accessorKey: "totalSales",
+    header: "Total Sales",
+  },
   {
     accessorKey: "createdAt",
     header: "Created At",
-    cell: ({ cell }) => {
-      return (
-        <div className="flex items-center gap-2">
-          {cell.getValue<Date>().toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-          })}
-        </div>
-      );
+    cell: ({ row }) => {
+      const product = row.original;
+      return formatDate(product.createdAt);
     },
   },
   {
     id: "action",
     cell: ({ row }) => {
-      const brand = row.original;
+      const product = row.original;
       return (
         <div className="flex items-center justify-center">
           <div className="hidden gap-2 md:flex">
@@ -60,12 +86,12 @@ export const columns: ColumnDef<Brand>[] = [
               className="bg-orange-500 uppercase hover:bg-orange-600"
               asChild
             >
-              <Link href={`/dashboard/brands/edit/${brand.id}`}>
+              <Link href={`/dashboard/products/edit/${product.id}`}>
                 <Pencil className="mr-2" />
                 Edit
               </Link>
             </Button>
-            <FormDelete type="BIG" id={brand.id} />
+            {/* <FormDelete type="BIG" id={product.id} /> */}
           </div>
           <div className="flex md:hidden">
             <DropdownMenu>
@@ -78,9 +104,11 @@ export const columns: ColumnDef<Brand>[] = [
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem asChild>
-                  <Link href={`/dashboard/brands/edit/${brand.id}`}>Edit</Link>
+                  <Link href={`/dashboard/products/edit/${product.id}`}>
+                    Edit
+                  </Link>
                 </DropdownMenuItem>
-                <FormDelete type="SMALL" id={brand.id} />
+                {/* <FormDelete type="SMALL" id={product.id} /> */}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
